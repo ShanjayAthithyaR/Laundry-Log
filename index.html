@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Laundry Keeper</title>
 <style>
-:root{--bg:#fafaf9;--card:#fff;--text:#1c1917;--mute:#78716c;--line:#e7e5e4;--acc:#2563eb;--accT:#fff;--warn:#d97706;--ok:#16a34a;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121110;--card:#1c1b19;--text:#f5f5f4;--mute:#a8a29e;--line:#2e2c29;--acc:#60a5fa;--accT:#0b1220;--warn:#fbbf24;--ok:#4ade80;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#121110;--card:#1c1b19;--text:#f5f5f4;--mute:#a8a29e;--line:#2e2c29;--acc:#60a5fa;--accT:#0b1220;--warn:#fbbf24;--ok:#4ade80;color-scheme:dark}
+:root{--bg:#fafaf9;--card:#fff;--text:#1c1917;--mute:#78716c;--line:#e7e5e4;--acc:#2563eb;--accT:#fff;--warn:#d97706;--ok:#16a34a;--hw:#0284c7;--hw-bg:#e0f2fe;--hw-text:#0369a1;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121110;--card:#1c1b19;--text:#f5f5f4;--mute:#a8a29e;--line:#2e2c29;--acc:#60a5fa;--accT:#0b1220;--warn:#fbbf24;--ok:#4ade80;--hw:#38bdf8;--hw-bg:#0c2a42;--hw-text:#bae6fd;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121110;--card:#1c1b19;--text:#f5f5f4;--mute:#a8a29e;--line:#2e2c29;--acc:#60a5fa;--accT:#0b1220;--warn:#fbbf24;--ok:#4ade80;--hw:#38bdf8;--hw-bg:#0c2a42;--hw-text:#bae6fd;color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
@@ -28,8 +28,10 @@ h2:first-child{margin-top:0}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
 @media (max-width:700px){.two-col{grid-template-columns:1fr}}
 
-.dg{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;margin-top:12px}
-.dg>div{display:flex;align-items:center;justify-content:space-between;text-transform:capitalize}
+.dg{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;margin-top:12px}
+@media (max-width:520px){.dg{grid-template-columns:1fr}}
+.dg>div{display:flex;align-items:center;justify-content:space-between;text-transform:capitalize;padding:2px 0}
+.item-meta{display:flex;align-items:center;gap:6px}
 .stp{display:flex;align-items:center;gap:6px}
 .stp button{width:28px;height:28px;font-size:16px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--text);cursor:pointer;line-height:1}
 .stp b{min-width:18px;text-align:center}
@@ -39,12 +41,17 @@ h2:first-child{margin-top:0}
 .ask button{border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:8px;padding:7px 14px;font:inherit;cursor:pointer}
 .ask button[data-a="y"]{background:var(--acc);border-color:var(--acc);color:var(--accT)}
 .go{width:100%;border:0;background:var(--acc);color:var(--accT);padding:12px;border-radius:10px;font:inherit;font-weight:600;cursor:pointer;margin-top:12px}
+.go.hw-btn{background:var(--hw);color:#fff;margin-top:8px}
 .pl{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
 .pl:last-of-type{border-bottom:0}
 .pv{text-align:right;white-space:nowrap}
 .pv b{font-size:18px}
 small,.mute{color:var(--mute);font-size:12px}
 small.w{color:var(--warn)}
+.badge-hw{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 6px;border-radius:6px;background:var(--hw-bg);color:var(--hw-text);text-transform:uppercase;letter-spacing:.04em;line-height:1.2}
+.hw-tag{font-size:11px;color:var(--hw);font-weight:500;margin-left:4px}
+.hw-inline-btn{border:1px solid var(--hw);background:none;color:var(--hw);font-size:11px;font-weight:600;padding:3px 7px;border-radius:6px;cursor:pointer;margin-top:4px}
+.hw-inline-btn:hover{background:var(--hw);color:#fff}
 .grp{padding:10px 0;border-bottom:1px solid var(--line)}
 .grp:last-child{border-bottom:0}
 .gh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
@@ -57,18 +64,27 @@ small.w{color:var(--warn)}
 .hist h2{margin:0}
 .hist button{border:0;background:none;color:var(--mute);font:inherit;font-size:13px;cursor:pointer}
 .st{font-size:12px;font-weight:600}
-.st.p{color:var(--warn)}.st.d{color:var(--ok)}
+.st.p{color:var(--warn)}.st.d{color:var(--ok)}.st.h{color:var(--hw)}
 .empty{color:var(--mute);text-align:center;padding:12px 0}
 details.tot{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px}
-details.tot summary{cursor:pointer;color:var(--mute);font-size:13px}
+details.tot summary{cursor:pointer;color:var(--mute);font-size:13px;font-weight:500}
 .trow{display:flex;align-items:center;justify-content:space-between;padding:6px 0;text-transform:capitalize}
-.trow input{width:80px;text-align:center;font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:8px;padding:5px}
+.trow input[type="number"]{width:80px;text-align:center;font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:8px;padding:5px}
+.toggle-chip{display:inline-flex;align-items:center;cursor:pointer;font-size:12px;user-select:none;gap:6px}
+.toggle-chip input{cursor:pointer}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:99;padding:16px}
+.modal{background:var(--card);border-radius:14px;border:1px solid var(--line);padding:18px;max-width:380px;width:100%;box-shadow:0 10px 25px rgba(0,0,0,0.2)}
+.modal h3{margin:0 0 8px;font-size:16px}
+.modal p{margin:0 0 16px;font-size:14px;color:var(--mute)}
+.modal-acts{display:flex;justify-content:flex-end;gap:8px}
+.modal-acts button{padding:8px 14px;font:inherit;border-radius:8px;cursor:pointer;border:1px solid var(--line)}
+.modal-acts .btn-primary{background:var(--acc);color:var(--accT);border-color:var(--acc)}
 </style>
 </head>
 <body>
 <main>
 <h1>Laundry Keeper</h1>
-<div class="sub">Log daily dirty clothes, put for wash, and track returns.</div>
+<div class="sub">Log dirty clothes, handwash or put for laundry, and track returns.</div>
 
 <div class="stats">
   <button class="stat" data-s="out"><b id="sOut">0</b><span>In laundry now</span></button>
@@ -101,74 +117,202 @@ details.tot summary{cursor:pointer;color:var(--mute);font-size:13px}
 <div class="hist"><h2>History</h2><button id="clr">Clear</button></div>
 <div class="card" id="hist"></div>
 
+<details class="tot"><summary>Handwash Preferences (wash by myself instead of laundry)</summary><div id="hwPrefBody"></div></details>
 <details class="tot"><summary>Set how many of each item I own</summary><div id="totBody"></div></details>
 <details class="tot"><summary>Daily usage rate (items needed per day)</summary><div id="cfgBody"></div></details>
 </main>
 
+<div id="modalBox" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <h3 id="modalTitle">Confirm Handwash</h3>
+    <p id="modalDesc">Are you sure you want to log these items as washed by yourself?</p>
+    <div class="modal-acts">
+      <button id="modalCancel">Cancel</button>
+      <button id="modalOk" class="btn-primary">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <script>
+// "towel" placed directly above "pillow cover"
 const GROUPS={
-  dress:["shirt","pant","jeans","tshirt","bermuda","bedsheet","pillow cover"],
+  dress:["shirt","pant","jeans","tshirt","bermuda","bedsheet","towel","pillow cover"],
   inners:["baniyan","underwear","socks"]
 };
-const DAILY_RATE={shirt:1,pant:0.6,jeans:0.4,tshirt:0.6,bermuda:0.4,bedsheet:0.2,"pillow cover":0.2,baniyan:1,underwear:1,socks:1};
+
+const DAILY_RATE={
+  shirt:1,
+  pant:0.6,
+  jeans:0.4,
+  tshirt:0.6,
+  bermuda:0.4,
+  bedsheet:0.2,
+  towel:0.2,
+  "pillow cover":0.2,
+  baniyan:1,
+  underwear:1,
+  socks:1
+};
+
 const $=id=>document.getElementById(id);
 
-let S={records:[],totals:{},dirty:{},dirtyAt:0,cfg:{lastPutTime:null,rate:{}}},open="",asking=false;
+let S={
+  records:[],
+  totals:{},
+  dirty:{},
+  dirtyAt:0,
+  handwash:{}, // denotes items user wants to wash by oneself
+  cfg:{lastPutTime:null,rate:{}}
+};
+let open="",asking=false,pendingModalAction=null;
+
 const fmt=t=>new Date(t).toLocaleString([], {day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
 const tm=t=>new Date(t).toLocaleTimeString([], {hour:"numeric",minute:"2-digit"});
 const dayF=t=>new Date(t).toLocaleDateString([], {day:"numeric",month:"short",year:"numeric"});
 
 function load(){
-  try{const r=localStorage.getItem("laundry-v6");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
-  S.records=S.records||[];S.totals=S.totals||{};S.dirty=S.dirty||{};
+  try{
+    const r=localStorage.getItem("laundry-v7");
+    if(r)S=Object.assign(S,JSON.parse(r));
+    else{
+      // Fallback migration from older version if exists
+      const old=localStorage.getItem("laundry-v6");
+      if(old){
+        const parsed=JSON.parse(old);
+        S=Object.assign(S,parsed);
+      }
+    }
+  }catch(e){}
+  S.records=S.records||[];
+  S.totals=S.totals||{};
+  S.dirty=S.dirty||{};
+  S.handwash=S.handwash||{};
   S.cfg=Object.assign({lastPutTime:null,rate:{}},S.cfg||{});
   S.cfg.rate=S.cfg.rate||{};
   if(!S.cfg.lastPutTime){
-    const dRecs=S.records.filter(r=>r.type=="dress");
+    const dRecs=S.records.filter(r=>r.type=="dress" && r.method!=="handwash");
     if(dRecs.length)S.cfg.lastPutTime=Math.max(...dRecs.map(r=>r.putAt));
   }
 }
-function save(){try{localStorage.setItem("laundry-v6",JSON.stringify(S))}catch(e){}}
+
+function save(){
+  try{localStorage.setItem("laundry-v7",JSON.stringify(S))}catch(e){}
+}
 
 function getDailyRate(i){return S.cfg.rate[i]!=null?S.cfg.rate[i]:(DAILY_RATE[i]||0.5)}
 
-// Computes the cycle interval automatically: (now - previous laundry put date) in days
+function isHandwash(i){return !!S.handwash[i]}
+
+// Cycle interval computation for laundry keep-buffer
 function getElapsedDays(){
-  if(!S.cfg.lastPutTime)return 4; // default buffer if no previous laundry recorded
+  if(!S.cfg.lastPutTime)return 4;
   const now=Date.now(),ms=now-S.cfg.lastPutTime;
   const days=Math.round(ms/(1000*60*60*24));
   return Math.max(1,days);
 }
 
+function buildHandwashPref(){
+  $("hwPrefBody").innerHTML=Object.entries(GROUPS).map(([g,items])=>
+    `<h2>${g}</h2>`+items.map(i=>`
+      <div class="trow">
+        <span>${i}</span>
+        <label class="toggle-chip">
+          <input type="checkbox" data-hw-toggle="${i}" ${isHandwash(i)?"checked":""}>
+          <span>Handwash by myself</span>
+        </label>
+      </div>`
+    ).join("")
+  ).join("");
+}
+
 function buildTotals(){
-  $("totBody").innerHTML=Object.entries(GROUPS).map(([g,items])=>`<h2>${g}</h2>`+items.map(i=>`<div class="trow"><span>${i}</span><input type="number" min="0" value="${S.totals[i]||0}" data-t="${i}"></div>`).join("")).join("");
+  $("totBody").innerHTML=Object.entries(GROUPS).map(([g,items])=>
+    `<h2>${g}</h2>`+items.map(i=>`
+      <div class="trow">
+        <span>${i}</span>
+        <input type="number" min="0" value="${S.totals[i]||0}" data-t="${i}">
+      </div>`
+    ).join("")
+  ).join("");
 }
+
 function buildCfg(){
-  $("cfgBody").innerHTML=Object.entries(GROUPS).map(([g,items])=>`<h2>${g}</h2>`+items.map(i=>`<div class="trow"><span>${i} / day</span><input type="number" step="0.1" min="0" value="${getDailyRate(i)}" data-r="${i}"></div>`).join("")).join("");
+  $("cfgBody").innerHTML=Object.entries(GROUPS).map(([g,items])=>
+    `<h2>${g}</h2>`+items.map(i=>`
+      <div class="trow">
+        <span>${i} / day</span>
+        <input type="number" step="0.1" min="0" value="${getDailyRate(i)}" data-r="${i}">
+      </div>`
+    ).join("")
+  ).join("");
 }
+
 function group(recs){
   const m=new Map();
-  recs.forEach(r=>{const k=r.type+"|"+new Date(r.putAt).toDateString();if(!m.has(k))m.set(k,{type:r.type,day:r.putAt,recs:[]});m.get(k).recs.push(r)});
+  recs.forEach(r=>{
+    const k=(r.method==="handwash"?"handwash":r.type)+"|"+new Date(r.putAt).toDateString();
+    if(!m.has(k))m.set(k,{type:r.type,method:r.method||"laundry",day:r.putAt,recs:[]});
+    m.get(k).recs.push(r);
+  });
   return [...m.values()];
 }
-function outMap(){const o={};S.records.filter(r=>!r.recvAt).forEach(r=>o[r.item]=(o[r.item]||0)+r.n);return o}
+
+function outMap(){
+  const o={};
+  S.records.filter(r=>!r.recvAt && r.method!=="handwash").forEach(r=>o[r.item]=(o[r.item]||0)+r.n);
+  return o;
+}
 
 function planGroup(grpKey){
   const o=outMap();
   const cycleDays=getElapsedDays();
   return GROUPS[grpKey].map(i=>{
     const own=S.totals[i]||0,L=o[i]||0,D=S.dirty[i]||0,C=Math.max(0,own-L-D);
+    const handwash=isHandwash(i);
     if(grpKey=="inners"){
-      // No keep count for inners: all dirty clothes are put for laundry
-      return {i,own,L,D,C,N:0,short:0,keep:0,put:D};
+      return {i,own,L,D,C,N:0,short:0,keep:0,put:D,handwash};
     }
-    // Dress: keep buffer is calculated based on the days elapsed since the last laundry put date
+    // Dress: buffer calculation
     const N=Math.ceil(getDailyRate(i)*cycleDays);
     const short=Math.max(0,N-C);
     const keep=Math.min(D,short);
     const put=Math.max(0,D-keep);
-    return {i,own,L,D,C,N,short,keep,put};
+    return {i,own,L,D,C,N,short,keep,put,handwash};
   });
+}
+
+function executeHandwash(itemOrGroup){
+  const now=Date.now();
+  if(itemOrGroup==="dress" || itemOrGroup==="inners"){
+    const list=GROUPS[itemOrGroup].filter(i=>isHandwash(i) && (S.dirty[i]||0)>0);
+    list.forEach(i=>{
+      const n=S.dirty[i];
+      S.records.push({id:rid(),type:itemOrGroup,item:i,n,putAt:now,recvAt:now,method:"handwash"});
+      S.dirty[i]=0;
+    });
+  } else {
+    const item=itemOrGroup;
+    const n=S.dirty[item]||0;
+    if(n>0){
+      const grpType=GROUPS.dress.includes(item)?"dress":"inners";
+      S.records.push({id:rid(),type:grpType,item,n,putAt:now,recvAt:now,method:"handwash"});
+      S.dirty[item]=0;
+    }
+  }
+  save();
+  render();
+}
+
+function openModal(title,desc,action){
+  $("modalTitle").textContent=title;
+  $("modalDesc").textContent=desc;
+  pendingModalAction=action;
+  $("modalBox").style.display="flex";
+}
+
+function closeModal(){
+  $("modalBox").style.display="none";
+  pendingModalAction=null;
 }
 
 function render(){
@@ -180,45 +324,104 @@ function render(){
   const B=$("brk");B.hidden=!open;
   if(open){
     const f={out,ward,all:own}[open],t={out:"In laundry now",ward:"Left in wardrobe",all:"Total items owned"}[open];
-    B.innerHTML=`<h2>${t}, by category</h2>`+Object.entries(GROUPS).map(([g,items])=>`<div class="mute" style="margin-top:8px;text-transform:uppercase;letter-spacing:.06em">${g} · ${items.reduce((a,i)=>a+f(i),0)}</div>`+items.map(i=>`<div class="r"><span>${i}</span><b>${f(i)}</b></div>`).join("")).join("");
+    B.innerHTML=`<h2>${t}, by category</h2>`+Object.entries(GROUPS).map(([g,items])=>`<div class="mute" style="margin-top:8px;text-transform:uppercase;letter-spacing:.06em">${g} · ${items.reduce((a,i)=>a+f(i),0)}</div>`+items.map(i=>`<div class="r"><span>${i} ${isHandwash(i)?`<span class="badge-hw">Handwash</span>`:""}</span><b>${f(i)}</b></div>`).join("")).join("");
   }
 
   // 1. LEFT - DIRTY DRESS
   $("dirtyDressCard").innerHTML=`<h2>Dirty Dress · Daily Entry</h2><button class="solo" id="soloShirt">+ 1 Shirt</button>`+
     (asking?`<div class="ask"><span>Shirt added. Add a pant too?</span><button data-a="y">Yes</button><button data-a="n">No</button></div>`:"")+
-    `<div class="dg">${GROUPS.dress.map(i=>`<div><span>${i}</span><span class="stp"><button data-di="${i}" data-d="-1">−</button><b>${S.dirty[i]||0}</b><button data-di="${i}" data-d="1">+</button></span></div>`).join("")}</div>`;
+    `<div class="dg">${GROUPS.dress.map(i=>`<div>
+      <span class="item-meta">
+        <span>${i}</span>
+        ${isHandwash(i)?`<span class="badge-hw" title="Handwash by myself">Handwash</span>`:""}
+      </span>
+      <span class="stp">
+        <button data-di="${i}" data-d="-1">−</button>
+        <b>${S.dirty[i]||0}</b>
+        <button data-di="${i}" data-d="1">+</button>
+      </span>
+    </div>`).join("")}</div>`;
 
   // 2. LEFT - PUT FOR LAUNDRY (DRESS)
-  const pDress=planGroup("dress"),dRows=pDress.filter(p=>p.D>0||(p.own>0&&p.short>0)),totPutDress=pDress.reduce((a,p)=>a+p.put,0);
-  const outDressRecs=S.records.filter(r=>!r.recvAt&&r.type=="dress");
+  const pDress=planGroup("dress");
+  // Separate items designated for Handwash vs External Laundry
+  const dLaundryRows=pDress.filter(p=>!p.handwash && (p.D>0||(p.own>0&&p.short>0)));
+  const dHandwashRows=pDress.filter(p=>p.handwash && p.D>0);
+  const totPutDress=dLaundryRows.reduce((a,p)=>a+p.put,0);
+  const totHandwashDress=dHandwashRows.reduce((a,p)=>a+p.D,0);
+
+  const outDressRecs=S.records.filter(r=>!r.recvAt&&r.type=="dress"&&r.method!=="handwash");
   const outDressCount=outDressRecs.reduce((a,r)=>a+r.n,0);
 
-  $("putDressCard").innerHTML=`<h2>Put for Laundry · Dress</h2>`+
-    (dRows.length?dRows.map(p=>`<div class="pl"><div><b style="text-transform:capitalize;font-weight:600">${p.i}</b><br><small>${p.own} owned · ${p.D} dirty · clean buffer ${p.N}</small></div><div class="pv"><b>${p.put}</b><small> put</small>${p.keep?`<br><small class="w">keep ${p.keep}</small>`:""}</div></div>`).join("")+(totPutDress?`<button class="go" id="logPutDress">Put ${totPutDress} dress for laundry</button>`:""):`<div class="empty">No dirty dress to put</div>`)+
+  let dressPutHtml=`<h2>Wash / Put for Laundry · Dress</h2>`;
+
+  // Section for Handwashing Dress
+  if(dHandwashRows.length){
+    dressPutHtml+=`<div class="mute" style="margin:4px 0 6px;text-transform:uppercase;letter-spacing:.05em;font-size:11px">Handwash Items (Wash by myself)</div>`+
+      dHandwashRows.map(p=>`<div class="pl"><div><b style="text-transform:capitalize">${p.i}</b> <span class="badge-hw">Handwash</span><br><small>${p.own} owned · ${p.D} dirty</small></div><div class="pv"><b>${p.D}</b><small> dirty</small><br><button class="hw-inline-btn" data-hw-single="${p.i}">Handwash Done</button></div></div>`).join("")+
+      `<button class="go hw-btn" id="logHandwashDress">Handwash all ${totHandwashDress} dress myself</button><div style="height:12px"></div>`;
+  }
+
+  // Section for Laundry Dress
+  dressPutHtml+=`<div class="mute" style="margin:4px 0 6px;text-transform:uppercase;letter-spacing:.05em;font-size:11px">External Laundry Service</div>`+
+    (dLaundryRows.length?dLaundryRows.map(p=>`<div class="pl"><div><b style="text-transform:capitalize;font-weight:600">${p.i}</b><br><small>${p.own} owned · ${p.D} dirty · clean buffer ${p.N}</small></div><div class="pv"><b>${p.put}</b><small> put</small>${p.keep?`<br><small class="w">keep ${p.keep}</small>`:""}</div></div>`).join("")+(totPutDress?`<button class="go" id="logPutDress">Put ${totPutDress} dress for laundry</button>`:""):`<div class="empty">No dirty dress for laundry</div>`)+
     (outDressCount?`<div class="rcv-block"><div><b>${outDressCount} dress in laundry</b></div><button class="rcv" data-rcv-type="dress">Received All</button></div>`:"");
+
+  $("putDressCard").innerHTML=dressPutHtml;
 
   // 3. RIGHT - DIRTY INNERS
   $("dirtyInnersCard").innerHTML=`<h2>Dirty Inners · Daily Entry</h2><button class="solo" id="soloInner">+ 1 Inners Set (Baniyan + Underwear)</button>`+
-    `<div class="dg">${GROUPS.inners.map(i=>`<div><span>${i}</span><span class="stp"><button data-di="${i}" data-d="-1">−</button><b>${S.dirty[i]||0}</b><button data-di="${i}" data-d="1">+</button></span></div>`).join("")}</div>`;
+    `<div class="dg">${GROUPS.inners.map(i=>`<div>
+      <span class="item-meta">
+        <span>${i}</span>
+        ${isHandwash(i)?`<span class="badge-hw" title="Handwash by myself">Handwash</span>`:""}
+      </span>
+      <span class="stp">
+        <button data-di="${i}" data-d="-1">−</button>
+        <b>${S.dirty[i]||0}</b>
+        <button data-di="${i}" data-d="1">+</button>
+      </span>
+    </div>`).join("")}</div>`;
 
-  // 4. RIGHT - PUT FOR LAUNDRY (INNERS) - NO KEEP
-  const pInners=planGroup("inners"),iRows=pInners.filter(p=>p.D>0),totPutInners=pInners.reduce((a,p)=>a+p.put,0);
-  const outInnersRecs=S.records.filter(r=>!r.recvAt&&r.type=="inners");
+  // 4. RIGHT - PUT FOR LAUNDRY (INNERS)
+  const pInners=planGroup("inners");
+  const iLaundryRows=pInners.filter(p=>!p.handwash && p.D>0);
+  const iHandwashRows=pInners.filter(p=>p.handwash && p.D>0);
+  const totPutInners=iLaundryRows.reduce((a,p)=>a+p.put,0);
+  const totHandwashInners=iHandwashRows.reduce((a,p)=>a+p.D,0);
+
+  const outInnersRecs=S.records.filter(r=>!r.recvAt&&r.type=="inners"&&r.method!=="handwash");
   const outInnersCount=outInnersRecs.reduce((a,r)=>a+r.n,0);
 
-  $("putInnersCard").innerHTML=`<h2>Put for Laundry · Inners</h2>`+
-    (iRows.length?iRows.map(p=>`<div class="pl"><div><b style="text-transform:capitalize;font-weight:600">${p.i}</b><br><small>${p.own} owned · ${p.D} dirty</small></div><div class="pv"><b>${p.put}</b><small> put to wash</small></div></div>`).join("")+(totPutInners?`<button class="go" id="logPutInners">Put all ${totPutInners} inners for laundry</button>`:""):`<div class="empty">No dirty inners to put</div>`)+
+  let innersPutHtml=`<h2>Wash / Put for Laundry · Inners</h2>`;
+
+  // Handwash inners if any
+  if(iHandwashRows.length){
+    innersPutHtml+=`<div class="mute" style="margin:4px 0 6px;text-transform:uppercase;letter-spacing:.05em;font-size:11px">Handwash Items (Wash by myself)</div>`+
+      iHandwashRows.map(p=>`<div class="pl"><div><b style="text-transform:capitalize">${p.i}</b> <span class="badge-hw">Handwash</span><br><small>${p.own} owned · ${p.D} dirty</small></div><div class="pv"><b>${p.D}</b><small> dirty</small><br><button class="hw-inline-btn" data-hw-single="${p.i}">Handwash Done</button></div></div>`).join("")+
+      `<button class="go hw-btn" id="logHandwashInners">Handwash all ${totHandwashInners} inners myself</button><div style="height:12px"></div>`;
+  }
+
+  // Laundry inners
+  innersPutHtml+=`<div class="mute" style="margin:4px 0 6px;text-transform:uppercase;letter-spacing:.05em;font-size:11px">External Laundry Service</div>`+
+    (iLaundryRows.length?iLaundryRows.map(p=>`<div class="pl"><div><b style="text-transform:capitalize;font-weight:600">${p.i}</b><br><small>${p.own} owned · ${p.D} dirty</small></div><div class="pv"><b>${p.put}</b><small> put to wash</small></div></div>`).join("")+(totPutInners?`<button class="go" id="logPutInners">Put all ${totPutInners} inners for laundry</button>`:""):`<div class="empty">No dirty inners for laundry</div>`)+
     (outInnersCount?`<div class="rcv-block"><div><b>${outInnersCount} inners in laundry</b></div><button class="rcv" data-rcv-type="inners">Received All</button></div>`:"");
 
-  // PENDING LIST
-  const pend=S.records.filter(r=>!r.recvAt).slice().reverse();
+  $("putInnersCard").innerHTML=innersPutHtml;
+
+  // PENDING LIST (External laundry pending return only)
+  const pend=S.records.filter(r=>!r.recvAt && r.method!=="handwash").slice().reverse();
   $("pend").innerHTML=pend.length?group(pend).map(g=>`<div class="grp"><div class="gh"><b>${g.type=="inners"?"Inners":"Dress"} · ${dayF(g.day)}</b><button class="rcv" data-ids="${g.recs.map(r=>r.id).join(",")}">Received</button></div>${g.recs.map(r=>`<div class="ln"><span>${r.n} × ${r.item}</span><small>${tm(r.putAt)}</small></div>`).join("")}</div>`).join(""):`<div class="empty">Nothing pending in laundry</div>`;
 
   // HISTORY
   const L=S.records.slice().reverse();
   $("hist").innerHTML=L.length?group(L).map(g=>{
+    if(g.method==="handwash"){
+      return `<div class="grp"><div class="gh"><b>Handwashed myself · ${dayF(g.day)}</b><span class="st h">Handwashed</span></div>${g.recs.map(r=>`<div class="ln"><span>${r.n} × ${r.item}</span><small>washed ${tm(r.putAt)}</small></div>`).join("")}</div>`;
+    }
     const d=g.recs.filter(r=>r.recvAt).length,st=d==g.recs.length?["d","All received"]:d?["p","Partly received"]:["p","In laundry"];
-    return `<div class="grp"><div class="gh"><b>${g.type=="inners"?"Inners":"Dress"} · Laundry ${dayF(g.day)}</b><span class="st ${st[0]}">${st[1]}</span></div>${g.recs.map(r=>`<div class="ln"><span>${r.n} × ${r.item}</span><small>put ${tm(r.putAt)}${r.recvAt?" · received "+fmt(r.recvAt):""}</small></div>`).join("")}</div>`}).join(""):`<div class="empty">No entries yet</div>`;
+    return `<div class="grp"><div class="gh"><b>${g.type=="inners"?"Inners":"Dress"} · Laundry ${dayF(g.day)}</b><span class="st ${st[0]}">${st[1]}</span></div>${g.recs.map(r=>`<div class="ln"><span>${r.n} × ${r.item}</span><small>put ${tm(r.putAt)}${r.recvAt?" · received "+fmt(r.recvAt):""}</small></div>`).join("")}</div>`;
+  }).join(""):`<div class="empty">No entries yet</div>`;
 }
 
 const rid=()=>Date.now()+Math.random().toString(36).slice(2,6);
@@ -244,39 +447,57 @@ $("dirtyInnersCard").onclick=e=>{
   save();render();
 };
 
-// Put dress for laundry: sets current timestamp as the new laundry milestone
+// Put dress actions
 $("putDressCard").onclick=e=>{
+  const hwBtn=e.target.closest("[data-hw-single]");
+  if(hwBtn){
+    executeHandwash(hwBtn.dataset.hwSingle);
+    return;
+  }
+  if(e.target.closest("#logHandwashDress")){
+    executeHandwash("dress");
+    return;
+  }
   const rcvBtn=e.target.closest("[data-rcv-type]");
   if(rcvBtn){
     const now=Date.now();
-    S.records.forEach(r=>{if(!r.recvAt&&r.type=="dress")r.recvAt=now});
+    S.records.forEach(r=>{if(!r.recvAt&&r.type=="dress"&&r.method!=="handwash")r.recvAt=now});
     save();render();
     return;
   }
   if(!e.target.closest("#logPutDress"))return;
   const now=Date.now();
-  planGroup("dress").filter(p=>p.put>0).forEach(p=>{
-    S.records.push({id:rid(),type:"dress",item:p.i,n:p.put,putAt:now,recvAt:null});
+  planGroup("dress").filter(p=>!p.handwash && p.put>0).forEach(p=>{
+    S.records.push({id:rid(),type:"dress",item:p.i,n:p.put,putAt:now,recvAt:null,method:"laundry"});
     S.dirty[p.i]=p.keep;
   });
-  S.cfg.lastPutTime=now; // Automatically record current time as the last laundry put date
+  S.cfg.lastPutTime=now;
   S.dirtyAt=now;
   save();render();
 };
 
-// Put inners for laundry (no keep: dirty count clears completely)
+// Put inners actions
 $("putInnersCard").onclick=e=>{
+  const hwBtn=e.target.closest("[data-hw-single]");
+  if(hwBtn){
+    executeHandwash(hwBtn.dataset.hwSingle);
+    return;
+  }
+  if(e.target.closest("#logHandwashInners")){
+    executeHandwash("inners");
+    return;
+  }
   const rcvBtn=e.target.closest("[data-rcv-type]");
   if(rcvBtn){
     const now=Date.now();
-    S.records.forEach(r=>{if(!r.recvAt&&r.type=="inners")r.recvAt=now});
+    S.records.forEach(r=>{if(!r.recvAt&&r.type=="inners"&&r.method!=="handwash")r.recvAt=now});
     save();render();
     return;
   }
   if(!e.target.closest("#logPutInners"))return;
   const now=Date.now();
-  planGroup("inners").filter(p=>p.put>0).forEach(p=>{
-    S.records.push({id:rid(),type:"inners",item:p.i,n:p.put,putAt:now,recvAt:null});
+  planGroup("inners").filter(p=>!p.handwash && p.put>0).forEach(p=>{
+    S.records.push({id:rid(),type:"inners",item:p.i,n:p.put,putAt:now,recvAt:null,method:"laundry"});
     S.dirty[p.i]=0;
   });
   S.dirtyAt=now;
@@ -293,6 +514,17 @@ $("pend").onclick=e=>{
   save();render();
 };
 
+// Toggle Handwash preferences
+$("hwPrefBody").onchange=e=>{
+  const target=e.target.closest("[data-hw-toggle]");
+  if(!target)return;
+  const item=target.dataset.hwToggle;
+  if(target.checked) S.handwash[item]=true;
+  else delete S.handwash[item];
+  save();
+  render();
+};
+
 $("totBody").onchange=e=>{
   const i=e.target.dataset.t;if(!i)return;
   S.totals[i]=Math.max(0,Math.floor(+e.target.value)||0);
@@ -306,9 +538,26 @@ $("cfgBody").onchange=e=>{
   save();render();
 };
 
-$("clr").onclick=()=>{if(confirm("Clear all history?")){S.records=[];S.cfg.lastPutTime=null;save();render()}};
+$("clr").onclick=()=>{
+  openModal("Clear History", "Are you sure you want to clear all laundry history? This cannot be undone.", ()=>{
+    S.records=[];
+    S.cfg.lastPutTime=null;
+    save();
+    render();
+  });
+};
 
-load();buildTotals();buildCfg();render();
+$("modalCancel").onclick=closeModal;
+$("modalOk").onclick=()=>{
+  if(pendingModalAction)pendingModalAction();
+  closeModal();
+};
+
+load();
+buildHandwashPref();
+buildTotals();
+buildCfg();
+render();
 </script>
 </body>
 </html>
